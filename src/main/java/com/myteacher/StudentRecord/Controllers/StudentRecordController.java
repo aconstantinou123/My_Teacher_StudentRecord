@@ -3,6 +3,7 @@ package com.myteacher.StudentRecord.Controllers;
 import com.myteacher.StudentRecord.Models.Record;
 import com.myteacher.StudentRecord.Repositories.StudentRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public class StudentRecordController {
     @Autowired
     StudentRecordRepository studentRecordRepository;
 
+    @PreAuthorize("hasAuthority('TEACHER')")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Record> getAllStudentRecords() {
         return studentRecordRepository.findAll();
     }
 
+    @PreAuthorize("hasAuthority('TEACHER')")
     @RequestMapping(value = "/teacher/{teacherId}", method = RequestMethod.GET)
     public List<Record> getAllStudentRecordsByTeacher(@PathVariable("teacherId") String teacherId) {
         return studentRecordRepository.findAllByTeacherId(teacherId);
