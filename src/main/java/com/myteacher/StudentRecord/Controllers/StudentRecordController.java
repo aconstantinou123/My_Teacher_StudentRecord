@@ -17,13 +17,13 @@ public class StudentRecordController {
     @Autowired
     StudentRecordRepository studentRecordRepository;
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Record> getAllStudentRecords() {
         return studentRecordRepository.findAll();
     }
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/teacher/{teacherId}", method = RequestMethod.GET)
     public List<Record> getAllStudentRecordsByTeacher(@PathVariable("teacherId") String teacherId) {
         return studentRecordRepository.findAllByTeacherId(teacherId);
