@@ -12,8 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins="http://localhost:8080", allowedHeaders="*")
 public class StudentRecordController {
+
     @Autowired
     StudentRecordRepository studentRecordRepository;
 
@@ -27,5 +27,11 @@ public class StudentRecordController {
     @RequestMapping(value = "/teacher/{teacherId}", method = RequestMethod.GET)
     public List<Record> getAllStudentRecordsByTeacher(@PathVariable("teacherId") String teacherId) {
         return studentRecordRepository.findAllByTeacherId(teacherId);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @RequestMapping(value = "/student/{username}", method = RequestMethod.GET)
+    public Record getStudentByUserName(@PathVariable("username") String username){
+        return studentRecordRepository.findByUsername(username);
     }
 }
